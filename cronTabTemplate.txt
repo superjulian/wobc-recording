@@ -1,0 +1,24 @@
+#a crontab template for the wobc recording system
+#repace ROOTDIRECTORY with whatever the file path
+#of your recording system is
+#ROOTDIRECTORY/scripts should store the shell scripts
+#and schedule while ROOTDIRECTORY/shows should store
+#the recordings.
+#LOGS should be replaced with whereever you want your log file to
+#go.
+
+
+#start a new recording on the 55th minute of every hour
+55 * * * * ROOTDIRECTORY/scripts/wobc-record.sh >> LOGS/wobc.txt
+
+#run the removal script once the new recording has begun
+56 * * * * ROOTDIRECTORY/scripts/wobc-remove.sh >> LOGS/wobc.txt
+
+#everyday at 8:05 AM
+#output the info in our log file so that cron emails it to us
+05 8 * * * cat LOGS/wobc.txt
+
+#After the email is sent replace the text of our
+#log file with the curent date and time
+06 8 * * * date > LOGS/wobc.txt
+
